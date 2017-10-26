@@ -1,4 +1,6 @@
+old/
 *.json
+*.yml
 *.logs
 .idea
 

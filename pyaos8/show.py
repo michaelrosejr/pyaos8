@@ -6,7 +6,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def show_ap_database(auth):
+def show(auth):
 
     url_showcommand = "https://" + auth.aos8ip + ":4343/v1/configuration/showcommand?json=1&UIDARUBA=" + auth.uidaruba + "&command=" + auth.showcom
     aoscookie = dict(SESSION = auth.uidaruba)
@@ -14,6 +14,7 @@ def show_ap_database(auth):
     try:
         r = requests.get(url_showcommand, cookies=aoscookie, verify=False)
         # showdata = json.loads(r.text)['mac_table_entry_element']
+        #print(r.text)
         if r.status_code != 200:
             #print(vars(r))
             print('Status:', r.status_code, 'Headers:', r.headers,

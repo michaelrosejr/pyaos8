@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
-import sys, json, requests, datetime, time, os, logging
+import sys
+import json
+import requests
+import datetime
+import time
+import os
+import logging
 import pprint
+import yaml
 
 from pyaos8 import auth
 import pyaos8.apdatabase as apdatabase
@@ -12,21 +19,9 @@ import pyaos8.show_ip_dhcp_binding as show_bindings
 import pyaos8.dhcp_pool as dhcppool
 import pyaos8.show as show
 
-username = 'admin'
-password = 'Aruba123'
-aos8ip = '10.0.1.5'
 showcom = 'show ap database long'
 #showcom = 'show ip dhcp binding'
-# showcom = 'show ap debug log ap-name study-ap'
-cookiefile = "aostoken-" + aos8ip + ".json"
-
-def get_new_token(aos8ip, username, password):
-    tempauth = auth.AOS8Auth(aos8ip, username, password)
-    tempsession = {}
-    tempsession['uidaruba'] = tempauth.uidaruba
-    with open(cookiefile, "w") as f:
-        json.dump(tempsession, f)
-
+#showcom = 'show ap debug log ap-name study-ap'
 
 class NewAuth:
     def __init__(self, uidaruba, aos8ip, showcom):
@@ -34,31 +29,53 @@ class NewAuth:
         self.aos8ip = aos8ip
         self.showcom = showcom
 
+def readYaml():
+    with open("data.yml", 'r') as ymlfile:
+        data = yaml.load(ymlfile)
+    return data
+
+def get_new_token(aos8ip, username, password):
+    tempauth = auth.AOS8Auth(aos8ip, username, password)
+    tempsession = {}
+    tempsession['uidaruba'] = tempauth.uidaruba
+
+    with open(cookiefile, 'wt') as file:
+        json.dump(tempsession, file)
+
 
 def chksession(aos8ip, cookiefile):
     dtnow = datetime.datetime.now()
     now = time.mktime(dtnow.timetuple())
-    filetime = os.path.getmtime(cookiefile)
-    difftime =  int(round(now - filetime))
-    showcommand = "show web-server profile"
-    # sessvar = NewAuth(token, aos8ip, showcommand)
-    # json_data = json.loads(apdatabase.show_ap_database(sessvar))
-    # for utimeout in json_data['Web Server Configuration']:
-    #     if utimeout['Parameter'].startswith('User session'):
-    #         timeout = float(utimeout['Value'])
     timeout = 900
 
+    # Try to get the filetime, if it fails assume it doesn't exist
+    #  and move on to get a new token
+    try:
+        filetime = os.path.getmtime(cookiefile)
+        difftime =  int(round(now - filetime))
+    except:
+        difftime = 1000
+
     if difftime > timeout:
+        print('getting new token')
         get_new_token(aos8ip, username, password)
         print("refreshing token...")
 
-chksession(aos8ip, cookiefile)
+# Read data from yaml file and set variables
+data = readYaml()
+username = data['user']
+password = data['password']
+controller_ip = data['controller_ip']
+cookiefile = "aostoken-" + controller_ip + ".json"
 
+# Get the cookie for the session
+chksession(controller_ip, cookiefile)
+
+# Open the session
 with open(cookiefile) as tokenfile:
     tokenvar = json.load(tokenfile)
     token = tokenvar['uidaruba']
-    session = NewAuth(token, aos8ip, showcom)
-
+    session = NewAuth(token, controller_ip, showcom)
 
 def convert_to_dhcp_table(session):
     import ast
@@ -68,7 +85,6 @@ def convert_to_dhcp_table(session):
     print(headers)
     for key, value in val.items():
         table ="{}\t{}\t{}\t{}\t{}".format(key, value['mac'], value['starts'], value['ends'], value['state'])
-
         print(table)
         #return table
 
@@ -98,7 +114,7 @@ def get_ap_mac_list(session):
 #
 # show ap database
 #
-#print(json.dumps((apdatabase.show_ap_database(session))))
+print(json.dumps((apdatabase.show_ap_database(session))))
 #print(json.dumps((show.show(session))))
 
 
@@ -111,7 +127,7 @@ def get_ap_mac_list(session):
 #
 # List containers
 #
-print(json.dumps(container.get_container(session)))
+#print(json.dumps(container.get_container(session)))
 
 #
 # Parse DHCP Binds vi show command

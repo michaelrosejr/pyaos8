@@ -3,13 +3,12 @@
 import requests, json
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def show_ap_database(auth):
-    """
 
-    """
     url_showcommand = "https://" + auth.aos8ip + ":4343/v1/configuration/showcommand?json=1&UIDARUBA=" + auth.uidaruba + "&command=" + auth.showcom
     aoscookie = dict(SESSION = auth.uidaruba)
     #print(url_showcommand)
@@ -23,4 +22,5 @@ def show_ap_database(auth):
 
         return r.text
     except requests.exceptions.RequestException as error:
+        #print("Error")
         return "Error:\n" + str(error) + " get_showcommand: An Error has occured"
