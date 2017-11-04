@@ -8,6 +8,7 @@ import os
 import logging
 import pprint
 import yaml
+import click
 
 from pyaos8 import auth
 import pyaos8.apdatabase as apdatabase
@@ -57,9 +58,9 @@ def chksession(aos8ip, cookiefile):
         difftime = 1000
 
     if difftime > timeout:
-        print('getting new token')
+        print('Refreshing new token:', end='', flush=True)
         get_new_token(aos8ip, username, password)
-        print("refreshing token...")
+        print(" COMPLETED")
 
 # Read data from yaml file and set variables
 data = readYaml()
@@ -99,14 +100,29 @@ def get_ap_mac_list(session):
                 if isinstance(line, dict):
                     print("{} {} {}".format(line['AP Type'], line['IP Address'], line['Wired MAC Address']))
 
-#getapmac = get_ap_mac_list(session)
+
+
+@click.group()
+def cli():
+    """ACLI for AOS8"""
+
+@cli.command()
+def get_ap_ip_mac():
+    getapmac = get_ap_mac_list(session)
 
 #
-# DHCP Binds
+# List DHCP Pools
 #
-# def get_dhcppool(session):
-#     pools = dhcppool.get_dhcppool(session)
-#     print(json.dumps(pools))
+@cli.command()
+def get_dhcppool():
+    pools = dhcppool.get_dhcppool(session)
+    print(json.dumps(pools))
+#
+# List DHCP Binds (broken)
+#
+@cli.command()
+def get_dhcp_binds():
+    a = convert_to_dhcp_table(session)
 
 # a = get_dhcppool(session)
 # a = convert_to_dhcp_table(session)
@@ -114,8 +130,13 @@ def get_ap_mac_list(session):
 #
 # show ap database
 #
-print(json.dumps((apdatabase.show_ap_database(session))))
-#print(json.dumps((show.show(session))))
+@cli.command()
+def get_ap_database():
+    print(apdatabase.show_ap_database(session))
+
+@cli.command()
+def get_session():
+    print(show.show(session))
 
 
 #
@@ -127,12 +148,19 @@ print(json.dumps((apdatabase.show_ap_database(session))))
 #
 # List containers
 #
-#print(json.dumps(container.get_container(session)))
+@cli.command()
+def get_containers():
+    print(json.dumps(container.get_container(session)))
+    # print(container.get_container(session))
+
 
 #
-# Parse DHCP Binds vi show command
+# Parse DHCP Binds via show command
 #
 # #print(dhcpbinds["_data"])
 # for binds, value in dhcpbinds["_data"].items():
 #     for lease in binds["_data"].items():
 #         print(lease)
+
+if __name__ == "__main__":
+    cli()
