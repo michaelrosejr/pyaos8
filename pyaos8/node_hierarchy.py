@@ -7,13 +7,13 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def show_ap_database(auth, showcom):
+def get_node_hierarchy(auth):
 
-    url_showcommand = "https://" + auth.aos8ip + ":4343/v1/configuration/showcommand?json=1&UIDARUBA=" + auth.uidaruba + "&command=" + showcom
+    url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/node_hierarchy?json=1&UIDARUBA=" + auth.uidaruba
     aoscookie = dict(SESSION = auth.uidaruba)
     #print(url_showcommand)
     try:
-        r = requests.get(url_showcommand, cookies=aoscookie, verify=False)
+        r = requests.get(url, cookies=aoscookie, verify=False)
         # showdata = json.loads(r.text)['mac_table_entry_element']
         if r.status_code != 200:
             #print(vars(r))

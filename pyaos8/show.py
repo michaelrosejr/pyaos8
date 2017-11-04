@@ -6,9 +6,9 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def show(auth):
+def show(auth, showcom):
 
-    url_showcommand = "https://" + auth.aos8ip + ":4343/v1/configuration/showcommand?json=1&UIDARUBA=" + auth.uidaruba + "&command=" + auth.showcom
+    url_showcommand = "https://" + auth.aos8ip + ":4343/v1/configuration/showcommand?json=1&UIDARUBA=" + auth.uidaruba + "&command=" + showcom
     aoscookie = dict(SESSION = auth.uidaruba)
     #print(url_showcommand)
     try:

@@ -12,17 +12,52 @@ import click
 
 from pyaos8 import auth
 import pyaos8.apdatabase as apdatabase
-import pyaos8.show as show
 import pyaos8.mactable as mactable
 import pyaos8.container as container
 #import pyaos8.session as session
 import pyaos8.show_ip_dhcp_binding as show_bindings
 import pyaos8.dhcp_pool as dhcppool
 import pyaos8.show as show
+import pyaos8.node_hierarchy as nh
+from pyaos8 import vlans
+from pyaos8 import interfaces
 
-showcom = 'show ap database long'
-#showcom = 'show ip dhcp binding'
-#showcom = 'show ap debug log ap-name study-ap'
+
+@click.group()
+def cli():
+    """A python CLI module to query AOS8 using API calls"""
+
+@cli.command()
+def get_arp_table():
+    showcom = "show arp"
+    print(show.show(session, showcom))
+
+@cli.command(help='show command - example: show_command -s "show user-table"')
+@click.option('--showcom', '-s', help='show command - example: show_command -s "show user-table"')
+def show_command(showcom):
+    print(show.show(session,showcom))
+
+@cli.command()
+def get_node_hierarchy():
+    print(nh.get_node_hierarchy(session))
+
+@cli.command()
+def get_vlans():
+    print(vlans.get_vlans(session))
+
+@cli.command()
+def get_interfaces():
+    print(interfaces.get_interfaces(session))
+
+
+"""
+This is a holdover from older code.
+The 'show amon msg-buffer-size' is an easily identifable response if
+the showcom has not been set properly
+"""
+if 'showcom' not in locals():
+    showcom = 'show amon msg-buffer-size'
+
 
 class NewAuth:
     def __init__(self, uidaruba, aos8ip, showcom):
@@ -102,9 +137,7 @@ def get_ap_mac_list(session):
 
 
 
-@click.group()
-def cli():
-    """ACLI for AOS8"""
+
 
 @cli.command()
 def get_ap_ip_mac():
@@ -132,7 +165,8 @@ def get_dhcp_binds():
 #
 @cli.command()
 def get_ap_database():
-    print(apdatabase.show_ap_database(session))
+    showcom = "show ap database long"
+    print(apdatabase.show_ap_database(session, showcom))
 
 @cli.command()
 def get_session():

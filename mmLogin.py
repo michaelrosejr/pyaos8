@@ -6,8 +6,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # MM Login IP and credentials
 userName = 'admin'
-passWord = 'Aruba123'
-deviceIP = '10.0.1.5'
+passWord = 'phattire'
+deviceIP = '10.0.1.33'
 
 
 values = {'username': userName,'password': passWord}
