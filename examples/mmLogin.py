@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import requests
 import pprint as pp
 import re
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+# requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # MM Login IP and credentials
 userName = 'admin'
@@ -18,7 +20,7 @@ logoutURL = "https://" + deviceIP + ":4343/v1/api/logout"
 node_hierarchy = baseURL + "/configuration/object/node_hierarchy"
 
 def getCookie(authString):
-    #print(authString)
+    print(authString)
     cookieString = str(authString)
     tmpList = cookieString.split(',')
     #print(tmpList[2])
@@ -49,7 +51,8 @@ with requests.Session() as query:
     node_hierarchy = node_hierarchy + '?UIDARUBA=' + UIDARUBA
     print(node_hierarchy)
     resp = query.get(node_hierarchy, cookies=auth.cookies,verify=False)
-    print(resp.content.decode("utf-8"))
+    # print(resp.content)
+    print(resp.text)
 
     print("Logging out of MM")
     auth = query.post(logoutURL, cookies=auth.cookies,verify=False)

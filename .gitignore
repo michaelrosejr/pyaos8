@@ -1,7 +1,9 @@
-pyaos8/__pycache__/
-old/
-*.json
+dist/
+build/
+*.pyc
 *.yml
-*.logs
+*.json
 .idea
-
+old/
+*.egg-info
+config.json

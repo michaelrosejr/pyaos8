@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests, json, pprint
+import requests
+import json
+import pprint
 
 class AOS8Auth():
     """
-    This class requests and stores an authentication cookie for CPPM
-    Switch Software.
+    This class requests and stores an authentication cookie for AOS8.
     """
     def __init__(self, aosip, username, password):
         url_login = "https://" + aosip + ":4343/v1/api/login"

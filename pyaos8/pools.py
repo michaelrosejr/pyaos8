@@ -1,5 +1,6 @@
-import requests
-import json
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import requests, json
 import sys
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -44,186 +45,130 @@ def aosput(url, auth, payload):
         #print("Error")
         return "Error:\n" + str(error) + " url_write: An Error has occured"
 
-class interfaces():
+class pools():
 
 
-    def get_int_get(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/int_gig?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def vlan_id_get(auth):
-
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/vlan_id?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-    def vlan_id_post(auth, aosdata):
-        aosdata = json.dumps(aosdata)
-        print(aosdata)
-
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/vlan_id?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosput(url, auth, aosdata)
-        return response
-
-
-    def get_int_mgmt(auth):
+    def get_ipv6_dhcp_excld_addr_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_mgmt?json=1&UIDARUBA=" + auth.uidaruba
+              "ipv6_dhcp_excld_addr_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_rad_src_int(auth):
+    def get_ip_dhcp_excld_addr_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "rad_src_int?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_excld_addr_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_ipv6_gateway_ip(auth):
+    def get_nat_pool(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "ipv6_gateway_ip?json=1&UIDARUBA=" + auth.uidaruba
+              "nat_pool?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_stm_tun_node_addr(auth):
+    def get_ip_dhcp_adaptive(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "stm_tun_node_addr?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_adaptive?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_pc(auth):
+    def get_srv_dhcp_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_pc?json=1&UIDARUBA=" + auth.uidaruba
+              "srv_dhcp_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_tg(auth):
+    def get_ip_dhcp_opt82_web(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "tg?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_opt82_web?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_range(auth):
+    def get_ip_dhcp_dfl_pool_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_range?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_dfl_pool_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_rad_src_int_v6(auth):
+    def get_ip_dhcp_pool_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "rad_src_int_v6?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_pool_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_gig(auth):
+    def get_srv_dhcpv6_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_gig?json=1&UIDARUBA=" + auth.uidaruba
+              "srv_dhcpv6_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_cell(auth):
+    def get_l2tp_local_pool_ipv6(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_cell?json=1&UIDARUBA=" + auth.uidaruba
+              "l2tp_local_pool_ipv6?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_vlan_id(auth):
+    def get_ipv6_dhcp_pool_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "vlan_id?json=1&UIDARUBA=" + auth.uidaruba
+              "ipv6_dhcp_pool_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_tun(auth):
+    def get_ip_dhcp_opt82(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_tun?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_opt82?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_stm_tun_node_mtu(auth):
+    def get_tun_pool(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "stm_tun_node_mtu?json=1&UIDARUBA=" + auth.uidaruba
+              "tun_pool?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_ip_flow_export_prof(auth):
+    def get_vlan_pool(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "ip_flow_export_prof?json=1&UIDARUBA=" + auth.uidaruba
+              "vlan_pool?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_ping(auth):
+    def get_l2tp_local_pool(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "ping?json=1&UIDARUBA=" + auth.uidaruba
+              "l2tp_local_pool?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_rad_cp_redir_v6(auth):
+    def get_ip_dhcp_lb_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "rad_cp_redir_v6?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_lb_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_int_loop(auth):
+    def get_pptp_local_pool(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_loop?json=1&UIDARUBA=" + auth.uidaruba
+              "pptp_local_pool?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
 
 
-    def get_stm_tun_loop_prevention(auth):
+    def get_ip_dhcp_ping_check_cfg(auth):
         url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "stm_tun_loop_prevention?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def get_vlan_range_rem(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "vlan_range_rem?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def get_vlan_name_id(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "vlan_name_id?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def get_rad_cp_redir(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "rad_cp_redir?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def get_int_vlan(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "int_vlan?json=1&UIDARUBA=" + auth.uidaruba
-        response = aosget(url, auth)
-        return response
-
-
-    def get_vlan_range(auth):
-        url = "https://" + auth.aos8ip + ":4343/v1/configuration/object/" \
-              "vlan_range?json=1&UIDARUBA=" + auth.uidaruba
+              "ip_dhcp_ping_check_cfg?json=1&UIDARUBA=" + auth.uidaruba
         response = aosget(url, auth)
         return response
