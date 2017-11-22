@@ -50,9 +50,11 @@ def get_arp_table():
 def show_command(showcom):
     print(show.show(session, showcom))
 
+
 @cli.command()
 def get_vlan_id():
     print(interfaces.interfaces.vlan_id_get(session))
+
 
 @cli.command()
 @click.option('--vlan_id', '-id', help="Creat VLAN ID")
@@ -60,6 +62,7 @@ def set_vlan_id(vlan_id):
     vlan_id_data = {}
     vlan_id_data['id'] = vlan_id
     print(interfaces.interfaces.vlan_id_post(session, vlan_id_data))
+
 
 @cli.command()
 def get_ip_dhcp_pool_cfg():
